@@ -25,7 +25,7 @@ import {AlertComponent} from './alert.component';
 export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   componentRef: ComponentRef<AlertComponent>[] = [];
   timeoutTimer: any;
-  alertTimeoutTimer: any;
+  alertTimeoutTimer: any = [];
   intervalTimer: any;
   @ViewChild('alertContainer', {read: ViewContainerRef}) container: ViewContainerRef;
   isLoading: boolean;
