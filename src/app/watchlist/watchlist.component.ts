@@ -1,6 +1,16 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ComponentFactory, ComponentFactoryResolver,
+  ComponentRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {WatchlistService} from './watchlist.service';
 import {throwError} from 'rxjs';
+import {CardComponent} from './card.component';
 @Component({
    selector: 'app-watchlist',
    templateUrl: './watchlist.component.html'
@@ -13,13 +23,27 @@ export class WatchlistComponent implements OnInit, AfterViewInit, OnDestroy {
   sortedSticker: any;
   localInfoList: any;
   timeoutTimer: any;
-  constructor(private watchlistservice: WatchlistService ) { }
+  cardComponentRef: ComponentRef<CardComponent>[] = [];
+  @ViewChild('cardContainer', {read: ViewContainerRef}) container: ViewContainerRef;
+  constructor(private watchlistservice: WatchlistService, private resolver: ComponentFactoryResolver ) { }
+
+  createCardComponent(List: any): void{
+    for (const item of List) {
+      const factory: ComponentFactory<CardComponent> = this.resolver.resolveComponentFactory(CardComponent);
+      const component = this.container.createComponent(factory);
+      component.instance.item = item;
+      this.cardComponentRef.push(component);
+    }
+  }
 
   ngOnDestroy(): void {
     clearTimeout(this.timeoutTimer);
+    for ( const item of this.cardComponentRef){
+      item.destroy();
+    }
   }
   ngAfterViewInit(): void {
-    this.timeoutTimer = setTimeout(() => { this.isLoading = false; }, 1500);
+    this.timeoutTimer = setTimeout(() => { this.isLoading = false; this.createCardComponent(this.infoList); }, 1200);
   }
   ngOnInit(): void {
     this.infoList = [];
@@ -75,42 +99,4 @@ export class WatchlistComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  changeTextColor(trend: string): string{
-    if ( trend === '+' ){
-      return 'text-success';
-    }else if ( trend === '-' ){
-      return 'text-danger';
-    }else{
-      return 'text-dark';
-    }
-  }
-  changeUpCaret(trend: string): boolean{
-    if ( trend === '+' ){
-      return true;
-    }else{
-      return false;
-    }
-  }
-  changeDownCaret(trend: string): boolean{
-    if ( trend === '-' ){
-      return true;
-    }else{
-      return false;
-    }
-  }
-
-  removeLocalStorage(ticker: string): void {
-    const prevarray = JSON.parse(localStorage.getItem('watchlist'));
-    const newarray = [];
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < prevarray.length; i++) {
-      if ( prevarray[i].tickerId !== ticker ){
-        newarray.push({tickerId: prevarray[i].tickerId, name: prevarray[i].name});
-      }
-    }
-    localStorage.removeItem('watchlist');
-    localStorage.setItem('watchlist', JSON.stringify(newarray));
-    this.ngOnInit();
-    this.isLoading = false;
-  }
 }

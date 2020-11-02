@@ -1,0 +1,23 @@
+  <div class="card w-100 bg-transparent my-3" role = "button" *ngIf="!destroy">
+    <button class="close p-0 ml-auto mr-2" aria-label="Close" (click)="removeLocalStorage(item?.ticker)"><span aria-hidden="true">&times;</span></button>
+    <div class="card-body mt-0 pt-0 px-2 px-lg-3">
+      <div class = "card-text" style="transform: rotate(0);">
+        <div class="row">
+          <h3 class="font-weight-bold col-6 text-left">{{item?.ticker}}</h3>
+          <h3 [class]="changeTextColor(item?.trend)" class="font-weight-bold col-6 text-right">{{item?.last}}</h3>
+        </div>
+        <div class="row">
+          <h5 class="col-6 text-left">{{item?.name}}</h5>
+          <h5 [class]="changeTextColor(item?.trend)" class="col-6 text-right">
+                <svg *ngIf="changeUpCaret(item?.trend)" style="vertical-align: inherit" width=".7em" height=".7em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="green" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                </svg>
+                <svg *ngIf="changeDownCaret(item?.trend)" style="vertical-align: inherit" width=".7em" height=".7em" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="red" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                </svg>{{item?.change}}({{item?.changePerc}}%)
+          </h5>
+        <a [routerLink]="'/details/'+item?.ticker" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+  </div>

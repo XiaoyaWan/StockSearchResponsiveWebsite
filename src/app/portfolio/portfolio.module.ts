@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {ReactiveFormsModule} from '@angular/forms';
+import {CardComponent} from './card.component';
 const routes: Routes = [
   {
     path: '',
@@ -22,9 +23,10 @@ const routes: Routes = [
   exports: [
    ],
   declarations: [
-      PortfolioComponent
+      PortfolioComponent,
+      CardComponent
    ],
    providers: [],
-   bootstrap: [PortfolioComponent]
+   bootstrap: [PortfolioComponent, CardComponent]
 })
 export class PortfolioModule { }

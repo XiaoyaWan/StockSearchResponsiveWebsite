@@ -67,6 +67,7 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 5000));
     // this.componentRef.instance.output.subscribe((msg: string) => console.log(msg) );
   }
+
   ngOnDestroy(): void{
     clearInterval(this.intervalTimer);
     clearTimeout(this.timeoutTimer);

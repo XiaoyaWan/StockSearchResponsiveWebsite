@@ -3,6 +3,7 @@ import { WatchlistComponent } from './watchlist.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {CardComponent} from './card.component';
 const routes: Routes = [
   {
     path: '',
@@ -20,9 +21,10 @@ const routes: Routes = [
   exports: [
    ],
   declarations: [
-      WatchlistComponent
+      WatchlistComponent,
+      CardComponent
    ],
    providers: [],
-   bootstrap: [WatchlistComponent]
+   bootstrap: [WatchlistComponent, CardComponent]
 })
 export class WatchlistModule { }
