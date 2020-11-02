@@ -1,0 +1,102 @@
+<div><h2 class="my-lg-5 my-4 font-weight-bold text-left"> My Portfolio </h2></div>
+<div *ngIf="isLoading">
+  <mat-spinner class="mx-auto my-lg-3"></mat-spinner>
+</div>
+<div *ngIf="!isLoading&&isEmpty" class="mx-auto my-auto alert alert-warning fade show" role="alert">
+  <p class="text-center my-auto">Currently you don't have any stock.</p>
+</div>
+<div *ngIf="!isLoading&&!isEmpty" class="d-flex flex-column">
+  <div class="card w-100 my-3 mx-0" role = "button" *ngFor=" let item of sortedInfoList; let i = index;">
+    <div class="card-header px-2 px-lg-3">
+      <div class="row col-12 d-flex align-items-end">
+        <h4 class="m-0 m-lg-2 font-weight-bold">{{item?.ticker}}</h4><h5 class="font-weight-bold text-muted my-0 my-lg-2 px-1">{{item?.name}}</h5>
+      <a [routerLink]="'/details/'+item?.ticker" class="stretched-link"></a>
+      </div>
+    </div>
+    <div class="card-body bg-transparent px-2 px-lg-3">
+      <div class = "card-text">
+        <div class="col-lg-6 col-12 float-left">
+          <div class="row">
+            <h5 class="col-6 text-left px-lg-3 px-0">Quantity:</h5>
+            <h5 class="col-6 text-right px-lg-3 px-0">{{formalizeNumber(item?.quantity,false)}}</h5>
+          </div>
+          <div class="row">
+            <h5 class="col-6 text-left px-lg-3 px-0">Avg. Cost/ Share:</h5>
+            <h5 class="col-6 text-right px-lg-3 px-0">{{formalizeNumber(getAvgCost(item?.totalCost,item?.quantity).toString(), true)}}</h5>
+          </div>
+          <div class="row">
+            <h5 class="col-6 text-left px-lg-3 px-0">Total Cost/ Share:</h5>
+            <h5 class="col-6 text-right px-lg-3 px-0">{{formalizeNumber(item?.totalCost, true)}}</h5>
+          </div>
+        </div>
+        <div class="col-lg-6 col-12 float-left">
+          <div class="row">
+            <h5 class="col-6 text-left px-lg-3 px-0">Change:</h5>
+            <h5 [class] = "getTextColor(item?.totalCost,item?.quantity, item?.last)" class="col-6 text-right px-lg-3 px-0">
+              <svg *ngIf="changeUpCaret(item?.totalCost,item?.quantity, item?.last)" style="vertical-align: inherit" width=".7em" height=".7em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="green" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+              </svg>
+              <svg *ngIf="changeDownCaret(item?.totalCost,item?.quantity, item?.last)" style="vertical-align: inherit" width=".7em" height=".7em" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="red" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+              </svg>{{formalizeNumber(getChange(item?.totalCost,item?.quantity, item?.last).toString(), true)}}</h5>
+          </div>
+          <div class="row">
+            <h5 class="col-6 text-left px-lg-3 px-0">Current Price:</h5>
+            <h5 [class] = "getTextColor(item?.totalCost,item?.quantity, item?.last)" class="col-6 text-right px-lg-3 px-0">{{formalizeNumber(item?.last, true)}}</h5>
+          </div>
+          <div class="row">
+            <h5 class="col-6 text-left px-lg-3 px-0">Market Value:</h5>
+            <h5 [class] = "getTextColor(item?.totalCost,item?.quantity, item?.last)" class="col-6 text-right px-lg-3 px-0">{{formalizeNumber(getMarketValue(item?.last,item?.quantity).toString(), true)}}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer d-flex flex-row-reverse">
+      <button (click)="resetValue()" data-toggle="modal" [attr.data-target]="'#sellModal'+i" (click)="setSellButtonControlQuantity(item?.quantity)" class="btn btn-danger mx-2" role="button">Sell</button>
+      <button (click)="resetValue()" data-toggle="modal" [attr.data-target]="'#buyModal'+i" class="btn btn-primary mx-2" role="button">Buy</button>
+    </div>
+  </div>
+
+</div>
+    <div class="modal" [attr.id]="'buyModal'+i" tabindex="-1" role="dialog" [attr.aria-labelledby]="'buyModalLabel'+i" aria-hidden="true" *ngFor=" let item of sortedInfoList; let i = index;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" [attr.id]="'buyModalLabel'+i">{{item?.ticker}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row col-12"><p class="my-2">Current Price: {{item?.last}}</p></div>
+            <div class="row col-12 flex-lg-row flex-column"><p class="my-lg-auto pr-2 my-2">Quantity</p><input [formControl] = "buyControl" class="col-lg-9 col-12 form-control my-2" type="number" autofocus spinner/></div>
+          </div>
+          <div class="modal-footer d-flex justify-content-between">
+            <p class="text-left">Total Price: {{getMarketValue(item?.last, buyModalTotalQuantity.toString()).toFixed(2)}}</p>
+            <button type="button" [disabled]="buyButtonDisable" (click)="buy(item?.ticker, item?.last, buyModalTotalQuantity)" class="btn btn-success" data-dismiss="modal">buy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" [attr.id]="'sellModal'+i" tabindex="-1" role="dialog" [attr.aria-labelledby]="'sellModalLabel'+i" aria-hidden="true" *ngFor=" let item of sortedInfoList; let i = index;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" [attr.id]="'sellModalLabel'+i">{{item?.ticker}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row col-12"><p class="my-2">Current Price: {{item?.last}}</p></div>
+            <div class="row col-12 flex-lg-row flex-column"><p class="my-lg-auto pr-2 my-2">Quantity</p><input [formControl] = "sellControl" class="col-lg-9 col-12 form-control my-2" type="number" autofocus spinner/></div>
+          </div>
+          <div class="modal-footer d-flex justify-content-between">
+            <p class="text-left">Total Price: {{getMarketValue(item?.last, sellModalTotalQuantity.toString()).toFixed(2)}}</p>
+            <button type="button" [disabled]="sellButtonDisable" (click)="sell(item?.ticker, item?.last, sellModalTotalQuantity)" class="btn btn-success" data-dismiss="modal">Sell</button>
+          </div>
+        </div>
+      </div>
+    </div>
+

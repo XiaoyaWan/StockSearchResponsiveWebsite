@@ -1,0 +1,170 @@
+<div class = "my-lg-3 my-3">
+<div *ngIf="isLoading">
+  <mat-spinner class="mx-auto my-lg-3"></mat-spinner>
+</div>
+<div *ngIf="errorSticker&&!isLoading" class="mx-auto my-5 row alert alert-danger fade show" role="alert">
+  <span class="text-center">No results found. Please enter valid Ticker.</span>
+</div>
+
+<div *ngIf="!errorSticker&&!isLoading">
+  <div class = "mx-3 d-flex flex-column-reverse">
+    <ng-template #alertContainer></ng-template>
+  </div>
+
+<div class="row">
+  <h1 class="col-6 font-weight-bold text-left">{{detailsList.ticker}}
+      <svg *ngIf="!btnCollect" type="button"  (click)="btnCollectClick()" style="vertical-align: inherit" width=".6em" height=".9em" viewBox="0 0 16 16" class="mt-0 bi bi-star" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+      </svg>
+      <svg *ngIf="btnCollect" type="button" (click)="btnCollectClick()"  style="vertical-align: inherit"  width=".6em" height=".9em" viewBox="0 0 16 16" class="mt-0 bi bi-star-fill" fill="orange" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+      </svg>
+  </h1>
+  <h1 [class]=priceColor class="col-6 font-weight-bold text-right">{{detailsRefreshList.last}}</h1>
+</div>
+<div class="row">
+  <h3 class="col-6 font-weight-bold text-muted text-left">{{detailsList.name}}</h3>
+  <h3 [class]=priceColor class="col-6 text-right font-weight-bold">
+        <svg *ngIf="caretColor" style="vertical-align: inherit" width=".7em" height=".7em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="green" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+        </svg>
+        <svg *ngIf="!caretColor" style="vertical-align: inherit" width=".7em" height=".7em" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="red" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+        </svg>
+        {{detailsRefreshList.change}}<br class="d-md-none">({{detailsRefreshList.changePerc}}%)
+  </h3>
+
+</div>
+<div class="row">
+  <p class="col-6 text-left">{{detailsList.exchangeCode}}</p>
+  <p class="col-6 text-right">{{getDate(detailsRefreshList.currentTimestamp)}}</p>
+</div>
+
+<div class="row">
+  <div class="col-6 ">
+    <button data-toggle="modal" data-target="#buyModal" class="btn btn-success btn-lg" role="button">buy</button>
+  </div>
+</div>
+
+
+<div class="row">
+  <p [class]="market" class="mx-auto my-3 text-center">{{detailsRefreshList.market}}{{getDate(detailsRefreshList.marketTime)}}</p>
+</div>
+
+<mat-tab-group mat-stretch-tabs class="example-stretched-tabs">
+  <mat-tab id="tab1"  label="Summary" class = "d-flex align-content-stretch flex-wrap" >
+    <ng-template matTabContent>
+      <div class="col-lg-6 col-12 px-lg-4 px-2 float-left">
+        <div class="col-12 p-0 m-0 row">
+          <table class="col-6 my-lg-5 my-3  float-left">
+            <tr><td>High Price:</td><td>{{detailsRefreshList.high}}</td></tr>
+            <tr><td>Low Price:</td><td>{{detailsRefreshList.low}}</td></tr>
+            <tr><td>Open Price:</td><td>{{detailsRefreshList.open}}</td></tr>
+            <tr><td>Prev. Close:</td><td>{{detailsRefreshList.prevClose}}</td></tr>
+            <tr><td>Volume:</td><td>{{detailsRefreshList.volume}}</td></tr>
+          </table>
+          <table class="col-6 my-lg-5 my-3 float-right">
+            <tr><td>{{table[0]}}</td><td>{{detailsRefreshList.mid}}</td></tr>
+            <tr><td>{{table[1]}}</td><td>{{detailsRefreshList.askPrice}}</td></tr>
+            <tr><td>{{table[2]}}</td><td>{{detailsRefreshList.askSize}}</td></tr>
+            <tr><td>{{table[3]}}</td><td>{{detailsRefreshList.bidPrice}}</td></tr>
+            <tr><td>{{table[4]}}</td><td>{{detailsRefreshList.bidSize}}</td></tr>
+          </table>
+        </div>
+        <div class="col-12 p-0 m-0">
+          <h5 class="font-weight-bold text-center m-lg-3 my-4"> Company Description</h5>
+          <p class="my-3">Start Date: {{detailsList.startDate}}</p>
+          <p class="my-3">{{detailsList.description}}</p>
+        </div>
+      </div>
+      <div class="col-lg-6 col-12 float-left px-lg-3 px-0 py-3">
+        <highcharts-chart
+          [Highcharts]="detailsChartHighcharts"
+          [constructorType]="'stockChart'"
+          [options]="detailsChartOptions" style="display: block;"></highcharts-chart>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab id="tab2" label="Top News">
+    <ng-template matTabContent>
+      <div class="d-flex align-content-stretch flex-wrap">
+        <div class="col-lg-6 col-12 container d-flex align-content-stretch mx-0" *ngFor = "let news of newsList;let i=index;">
+          <div class="card w-100 bg-light m-2 p-3"  data-toggle="modal" [attr.data-target]="'#newsModal'+i" role = "button" *ngIf="CheckImgExists(news.urlToImage)">
+              <div class="row no-gutters my-auto">
+                  <div class="col-lg-3 col-12 my-auto">
+                      <img class="card-img rounded my-auto img-fluid" style="overflow: hidden;" [src]="news.urlToImage" alt="No Image">
+                  </div>
+                  <div class="col-lg-9 col-12 my-auto">
+                      <div class="card-body p-lg-3 p-1">
+                          <p class="card-text">{{news.title}}</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </mat-tab>
+  <mat-tab id="tab3" label="Charts" class="py-3">
+    <ng-template matTabContent>
+      <app-details-smachart></app-details-smachart>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+</div>
+<div>
+  <div *ngFor = "let news of newsList;let i=index;" class="modal" [attr.id]="'newsModal'+i" tabindex="-1" role="dialog" [attr.aria-labelledby]="'newsModalLabel'+i" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" [attr.id]="'newsModalLabel'+i">{{news.source.name}}</h4>
+                <p class="text-muted my-0">{{formalizeDate(news.publishedAt)}}</p>
+              </div>
+              <div class="modal-body">
+                <h5>{{news.title}}</h5>
+                <p>{{news.description}}</p>
+                <p class="text-muted">For more details click <a href="{{news.url}}"  target="_blank">here</a></p>
+                <div class="modal-footer border p-3" style="border-radius: 15px;">
+                  <p>share</p>
+                  <a class="mr-2" target="_blank" href="https://twitter.com/intent/tweet?text={{news.title}}&url={{news.url}}" >
+                    <span style="font-size: 48px; color: Dodgerblue;"><i class="fab fa-twitter"></i></span>
+                    </a>
+                  <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{news.url}};src=sdkpreparse" class="fb-xfbml-parse-ignore">
+                    <span style="font-size: 48px; color: Dodgerblue;"><i class="fab fa-facebook-square"></i></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+<div>
+    <div class="modal" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h5 class="modal-title" id="buyModalLabel">{{detailsList.ticker}}</h5>
+          </div>
+          <div class="modal-body">
+            <div class="row col-12"><p class="my-2">Current Price: {{detailsRefreshList.last}}</p></div>
+            <div class="row col-12 flex-lg-row flex-column"><p class="my-lg-auto my-2 pr-2">Quantity</p><input [formControl] = "buyControl" class="col-lg-9 col-12 form-control my-2" type="number" autofocus="autofocus" spinner/></div>
+          </div>
+          <div class="modal-footer d-flex justify-content-between">
+            <p class="text-left">Total Price: {{buyModalTotalPrice.toFixed(2)}}</p>
+            <button type="button" [disabled]="buyButtonDisable" (click)="buy(detailsList.ticker, detailsList.name, detailsRefreshList.last, buyModalTotalQuantity)" class="btn btn-success" data-dismiss="modal">Buy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+</div>
+
+

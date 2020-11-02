@@ -1,0 +1,18 @@
+<div *ngIf="collect&&!buy" class="row alert alert-danger alert-dismissible fade show" role="alert">
+  <span class="text-center mx-auto">{{ticker}} removed from Watchlist.</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div *ngIf="!collect&&!buy" class="row alert alert-success alert-dismissible fade show" role="alert">
+  <span class="text-center mx-auto">{{ticker}} added to Watchlist.</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div *ngIf="buy" class="row alert alert-success alert-dismissible fade show" role="alert">
+  <span class="text-center mx-auto">{{ticker}} bought successfully!</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>

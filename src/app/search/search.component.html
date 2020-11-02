@@ -1,0 +1,31 @@
+<div class="mt-5 pt-5 mt-lg-5">
+
+<h1 class ="my-5 my-lg-5 display-3 font-weight-bold text-center"><strong>STOCK SEARCH</strong></h1>
+
+<form class = "px-2 form-inline rounded-pill mx-auto" style="border: 3px solid #6f42c1; width: 300px;" role="form" (ngSubmit)="ngSubmit(myinput.value)">
+      <input type = "text"
+         class = "rounded-pill form-control border-0 bg-transparent control-input"
+         style = "width:85%;"
+         placeholder = "Enter stock name"
+         aria-label = "Number"
+         matInput
+         #myinput
+         [formControl] = "myControl"
+         [matAutocomplete] = "auto"
+      >
+     <button class="input-group-append btn btn-outline-light border-0 bg-transparent mr-0" type="submit">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="purple" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+            </svg>
+     </button>
+     <mat-autocomplete #auto = "matAutocomplete" class = "w-20 mx-2">
+       <mat-option *ngIf="isLoading"><mat-label><mat-spinner [diameter]="40"></mat-spinner></mat-label></mat-option>
+       <div *ngIf= "!isLoading">
+         <mat-option #allTheseThings *ngFor = "let option of searchList; let last = last" [value] = "option.ticker">
+           <mat-label  class="font-weight-bold">{{option.ticker}}</mat-label><mat-label class="font-weight-lighter"> | {{option.name}}</mat-label>
+         </mat-option>
+       </div>
+     </mat-autocomplete>
+</form>
+</div>

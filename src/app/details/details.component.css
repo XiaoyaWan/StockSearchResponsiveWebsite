@@ -1,0 +1,12 @@
+a.card,
+a.card:hover {
+  color: inherit;
+  text-decoration: none;
+}
+chart{ display: block }
+.modal-footer {
+  display: block;
+}
+.modal-header {
+  display: block;
+}
