@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {PortfolioService} from './portfolio.service';
 
 @Component({ selector: 'app-card', templateUrl: 'card.component.html' })
 export class CardComponent implements OnInit{
@@ -14,7 +15,8 @@ export class CardComponent implements OnInit{
   sellControl = new FormControl('0');
   sellModalTotalQuantity = 0;
   sellButtonDisable = true;
-
+  constructor(private missionService: PortfolioService) {
+  }
   ngOnInit(): void {
     this.buyControl.valueChanges.subscribe(
       (input) => {
@@ -68,7 +70,7 @@ export class CardComponent implements OnInit{
   }
 
   getChange(totalCost: string, quantity: string, last: string): number {
-    return parseFloat(last) - this.getAvgCost(totalCost, quantity);
+    return Math.round((parseFloat(last) - this.getAvgCost(totalCost, quantity)) * 100) / 100;
   }
 
   getMarketValue(last: string, quantity: string): number {
@@ -94,6 +96,7 @@ export class CardComponent implements OnInit{
     }
     localStorage.removeItem('portfolio');
     localStorage.setItem('portfolio', JSON.stringify(newarray));
+    this.missionService.announceMission('buy');
   }
 
   sell(ticker: string, price: string, num: number): void {
@@ -122,6 +125,7 @@ export class CardComponent implements OnInit{
     }
     localStorage.removeItem('portfolio');
     localStorage.setItem('portfolio', JSON.stringify(newarray));
+    this.missionService.announceMission('sell');
   }
 
 

@@ -81,8 +81,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CardComponent", function() { return CardComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _portfolio_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./portfolio.service */ "pYqb");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
+
 
 
 
@@ -220,7 +222,8 @@ function CardComponent_div_0_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("data-target", "#buyModal" + ctx_r0.index);
 } }
 class CardComponent {
-    constructor() {
+    constructor(missionService) {
+        this.missionService = missionService;
         this.destroy = false;
         this.buyControl = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('0');
         this.buyModalTotalQuantity = 0;
@@ -278,7 +281,7 @@ class CardComponent {
         return Math.round(parseFloat(totalCost) / parseInt(quantity, 10) * 100) / 100;
     }
     getChange(totalCost, quantity, last) {
-        return parseFloat(last) - this.getAvgCost(totalCost, quantity);
+        return Math.round((parseFloat(last) - this.getAvgCost(totalCost, quantity)) * 100) / 100;
     }
     getMarketValue(last, quantity) {
         return Math.round(parseFloat(last) * parseInt(quantity, 10) * 100) / 100;
@@ -302,6 +305,7 @@ class CardComponent {
         }
         localStorage.removeItem('portfolio');
         localStorage.setItem('portfolio', JSON.stringify(newarray));
+        this.missionService.announceMission('buy');
     }
     sell(ticker, price, num) {
         const prevarray = JSON.parse(localStorage.getItem('portfolio'));
@@ -329,6 +333,7 @@ class CardComponent {
         }
         localStorage.removeItem('portfolio');
         localStorage.setItem('portfolio', JSON.stringify(newarray));
+        this.missionService.announceMission('sell');
     }
     resetValue() {
         this.buyModalTotalQuantity = 0;
@@ -408,7 +413,7 @@ class CardComponent {
         }
     }
 }
-CardComponent.ɵfac = function CardComponent_Factory(t) { return new (t || CardComponent)(); };
+CardComponent.ɵfac = function CardComponent_Factory(t) { return new (t || CardComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_portfolio_service__WEBPACK_IMPORTED_MODULE_2__["PortfolioService"])); };
 CardComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: CardComponent, selectors: [["app-card"]], inputs: { item: "item", index: "index" }, decls: 45, vars: 17, consts: [["class", "card w-100 my-3 mx-0", 4, "ngIf"], ["tabindex", "-1", "role", "dialog", "aria-hidden", "true", 1, "modal"], ["role", "document", 1, "modal-dialog"], [1, "modal-content"], [1, "modal-header"], [1, "modal-title"], ["type", "button", "data-dismiss", "modal", "aria-label", "Close", 1, "close"], ["aria-hidden", "true"], [1, "modal-body"], [1, "row", "col-12"], [1, "my-2"], [1, "row", "col-12", "flex-lg-row", "flex-column"], [1, "my-lg-auto", "pr-2", "my-2"], ["type", "number", "autofocus", "", "spinner", "", 1, "col-lg-9", "col-12", "form-control", "my-2", 3, "formControl"], [1, "modal-footer", "d-flex", "justify-content-between"], [1, "text-left"], ["type", "button", "data-dismiss", "modal", 1, "btn", "btn-success", 3, "disabled", "click"], [1, "card", "w-100", "my-3", "mx-0"], [1, "card-header", "px-2", "px-lg-3"], [1, "row", "col-12", "d-flex", "align-items-end"], [1, "m-0", "m-lg-2", "font-weight-bold"], [1, "font-weight-bold", "text-muted", "my-0", "my-lg-2", "px-1"], [1, "stretched-link", 3, "routerLink"], [1, "card-body", "bg-transparent", "px-2", "px-lg-3"], [1, "card-text"], [1, "col-lg-6", "col-12", "float-left"], [1, "row"], [1, "col-6", "text-left", "px-lg-3", "px-0"], [1, "col-6", "text-right", "px-lg-3", "px-0"], ["style", "vertical-align: inherit", "width", ".7em", "height", ".7em", "viewBox", "0 0 16 16", "class", "bi bi-caret-up-fill", "fill", "green", "xmlns", "http://www.w3.org/2000/svg", 4, "ngIf"], ["style", "vertical-align: inherit", "width", ".7em", "height", ".7em", "viewBox", "0 0 16 16", "class", "bi bi-caret-down-fill", "fill", "red", "xmlns", "http://www.w3.org/2000/svg", 4, "ngIf"], [1, "card-footer", "d-flex", "flex-row-reverse"], ["data-toggle", "modal", "role", "button", 1, "btn", "btn-danger", "mx-2", 3, "click"], ["data-toggle", "modal", "role", "button", 1, "btn", "btn-primary", "mx-2", 3, "click"], ["width", ".7em", "height", ".7em", "viewBox", "0 0 16 16", "fill", "green", "xmlns", "http://www.w3.org/2000/svg", 1, "bi", "bi-caret-up-fill", 2, "vertical-align", "inherit"], ["d", "M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"], ["width", ".7em", "height", ".7em", "viewBox", "0 0 16 16", "fill", "red", "xmlns", "http://www.w3.org/2000/svg", 1, "bi", "bi-caret-down-fill", 2, "vertical-align", "inherit"], ["d", "M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"]], template: function CardComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](0, CardComponent_div_0_Template, 49, 19, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -517,11 +522,11 @@ CardComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComp
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("Total Price: ", ctx.getMarketValue(ctx.item == null ? null : ctx.item.last, ctx.sellModalTotalQuantity.toString()).toFixed(2), "");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", ctx.sellButtonDisable);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NumberValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControlDirective"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterLinkWithHref"]], encapsulation: 2 });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NumberValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControlDirective"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterLinkWithHref"]], encapsulation: 2 });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](CardComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{ selector: 'app-card', templateUrl: 'card.component.html' }]
-    }], null, { item: [{
+    }], function () { return [{ type: _portfolio_service__WEBPACK_IMPORTED_MODULE_2__["PortfolioService"] }]; }, { item: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
         }], index: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
@@ -552,8 +557,12 @@ __webpack_require__.r(__webpack_exports__);
 class PortfolioService {
     constructor(http) {
         this.http = http;
+        this.missionAnnouncedSource = new rxjs__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
+        this.missionAnnounced$ = this.missionAnnouncedSource.asObservable();
     }
-    // tslint:disable-next-line:typedef
+    announceMission(mission) {
+        this.missionAnnouncedSource.next(mission);
+    }
     getData(input) {
         return this.http.get('/simpledata?input=' + input).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((err) => {
             console.log('error caught in portfolio service');
@@ -618,26 +627,9 @@ class PortfolioComponent {
         this.sortedInfoList = [];
         this.cardComponentRef = [];
     }
-    createCardComponent(List) {
-        for (let i = 0; i < List.length; i++) {
-            const factory = this.resolver.resolveComponentFactory(_card_component__WEBPACK_IMPORTED_MODULE_2__["CardComponent"]);
-            const component = this.container.createComponent(factory);
-            component.instance.item = List[i];
-            component.instance.index = i;
-            this.cardComponentRef.push(component);
-        }
-    }
-    ngOnDestroy() {
-        clearTimeout(this.timeoutTimer);
-    }
-    ngAfterViewInit() {
-        this.timeoutTimer = setTimeout(() => { this.isLoading = false; this.createCardComponent(this.sortedInfoList); }, 1200);
-    }
-    ngOnInit() {
-        this.sortedInfoList = [];
-        this.isLoading = true;
-        this.localInfoList = JSON.parse(localStorage.getItem('portfolio'));
-        if (this.localInfoList == null || this.localInfoList.length === 0) {
+    updateData(isUpdate) {
+        const temp = JSON.parse(localStorage.getItem('portfolio'));
+        if (temp == null || temp.length === 0) {
             this.isEmpty = true;
         }
         else {
@@ -653,12 +645,12 @@ class PortfolioComponent {
                 }
                 return 0;
             });
-            const queryArray = [];
-            // tslint:disable-next-line:prefer-for-of
-            for (let i = 0; i < this.sortedSticker.length; i++) {
-                queryArray.push(this.sortedSticker[i].tickerId);
+            const array = [];
+            for (const item of this.sortedSticker) {
+                array.push(item.tickerId);
             }
-            this.portfolioservice.getData(queryArray.toString()).subscribe((data) => {
+            this.portfolioservice.getData(array.toString()).subscribe((data) => {
+                console.log('update');
                 this.sortedInfoList = Array.from(Object.keys(data), k => data[k]);
                 this.sortedInfoList = this.sortedInfoList.sort((a, b) => {
                     const fa = a.ticker;
@@ -676,10 +668,51 @@ class PortfolioComponent {
                     this.sortedInfoList[i].quantity = this.sortedSticker[i].quantity;
                     this.sortedInfoList[i].name = this.sortedSticker[i].name;
                 }
+                if (isUpdate) {
+                    this.updateCardComponent(this.sortedInfoList);
+                }
             }, (error) => {
                 Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["throwError"])(error);
             });
         }
+    }
+    createCardComponent(List) {
+        // this.cardComponentRef = [];
+        for (let i = 0; i < List.length; i++) {
+            const factory = this.resolver.resolveComponentFactory(_card_component__WEBPACK_IMPORTED_MODULE_2__["CardComponent"]);
+            const component = this.container.createComponent(factory);
+            component.instance.item = List[i];
+            component.instance.index = i;
+            this.cardComponentRef[i] = component;
+        }
+    }
+    updateCardComponent(List) {
+        for (let i = 0; i < List.length; i++) {
+            console.log(i);
+            if (this.cardComponentRef[i] != null) {
+                console.log(this.cardComponentRef[i].instance.index);
+                console.log(this.cardComponentRef[i].instance.item);
+                console.log(List[i]);
+                this.cardComponentRef[i].instance.item.last = List[i].last;
+                console.log(this.cardComponentRef[i].instance.item);
+            }
+        }
+        console.log('length:' + this.cardComponentRef.length);
+    }
+    ngOnDestroy() {
+        clearTimeout(this.timeoutTimer);
+    }
+    ngAfterViewInit() {
+        this.timeoutTimer = setTimeout(() => { this.isLoading = false; this.createCardComponent(this.sortedInfoList); }, 1200);
+    }
+    ngOnInit() {
+        this.sortedInfoList = [];
+        this.isLoading = true;
+        this.localInfoList = JSON.parse(localStorage.getItem('portfolio'));
+        this.updateData(false);
+        this.subscription = this.portfolioservice.missionAnnounced$.subscribe(mission => {
+            this.updateData(true);
+        });
     }
 }
 PortfolioComponent.ɵfac = function PortfolioComponent_Factory(t) { return new (t || PortfolioComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_portfolio_service__WEBPACK_IMPORTED_MODULE_3__["PortfolioService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ComponentFactoryResolver"])); };

@@ -75,7 +75,6 @@ router.get('/detailssmachart', function (req, res, next) {
 
   var date = new Date();
   var strDate = ( date.getFullYear() - 2 )+'-'+( date.getMonth() + 1 )+'-'+ date.getDate();
-  // console.log(strDate);
   var request = require('request');
     var requestOptions = {
         'url': 'https://api.tiingo.com/tiingo/daily/'+query+'/prices?startDate='+strDate+'&token=cbff2b4a40e74a1e30f8d611d1944ee95b264edc',
@@ -135,22 +134,22 @@ router.get('/detailsrefresh', function (req, res, next) {
             var str1 = date1.toLocaleString('us-PT',{ hour12: false});
             var str2 = date2.toLocaleString('us-PT',{ hour12: false});
 
-            result['timestamp'] = str2.slice(6,10)+'-'+str2.slice(0,2)+'-'+str2.slice(3,5)+' '+str2.slice(12,20);
-            result['currentTimestamp'] =  str1.slice(6,10)+'-'+str1.slice(0,2)+'-'+str1.slice(3,5)+' '+str1.slice(12,20);
+            result['timestamp'] = str2.split(',')[0].split('/')[2]+'-'+str2.split(',')[0].split('/')[0]+'-'+str2.split(',')[0].split('/')[1]+str2.split(',')[1];
+            result['currentTimestamp'] = str1.split(',')[0].split('/')[2]+'-'+str1.split(',')[0].split('/')[0]+'-'+str1.split(',')[0].split('/')[1]+str1.split(',')[1];
 
             var strDate = '';
 
             if (((date1 - date2) / 1000) < 60) {
                 result['market'] = 'Market is Open';
                 result['marketTime'] = '';
-                strDate = result['currentTimestamp'].slice(0, 10);
+                strDate = result['currentTimestamp'].split(' ')[0];
                 if (result['mid'] == null) {
                     result['mid'] = '-';
                 }
             } else {
                 result['market'] = 'Market Closed on ';
                 result['marketTime'] = date2.toISOString();
-                strDate = result['timestamp'].slice(0, 10);
+                strDate = result['timestamp'].split(' ')[0];
             }
 
             result['timestamp'] = date2.toISOString();

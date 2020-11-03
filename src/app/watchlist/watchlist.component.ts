@@ -9,7 +9,7 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import {WatchlistService} from './watchlist.service';
-import {throwError} from 'rxjs';
+import {Subscription, throwError} from 'rxjs';
 import {CardComponent} from './card.component';
 @Component({
    selector: 'app-watchlist',
@@ -23,10 +23,21 @@ export class WatchlistComponent implements OnInit, AfterViewInit, OnDestroy {
   sortedSticker: any;
   localInfoList: any;
   timeoutTimer: any;
+  subscription: Subscription;
   cardComponentRef: ComponentRef<CardComponent>[] = [];
   @ViewChild('cardContainer', {read: ViewContainerRef}) container: ViewContainerRef;
-  constructor(private watchlistservice: WatchlistService, private resolver: ComponentFactoryResolver ) { }
-
+  constructor(private watchlistservice: WatchlistService, private resolver: ComponentFactoryResolver ) {
+    this.subscription = watchlistservice.missionAnnounced$.subscribe(
+      mission => {
+        this.checkisEmpty();
+    });
+  }
+  checkisEmpty(): void{
+    const temp = JSON.parse(localStorage.getItem('watchlist'));
+    if ( temp == null || temp.length === 0){
+      this.isEmpty = true;
+    }
+  }
   createCardComponent(List: any): void{
     for (const item of List) {
       const factory: ComponentFactory<CardComponent> = this.resolver.resolveComponentFactory(CardComponent);

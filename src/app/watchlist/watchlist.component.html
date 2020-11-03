@@ -2,7 +2,7 @@
 <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center; height: calc(40vh - 20px);">
   <mat-spinner class="mx-auto my-auto" style="margin:0 auto; display: block;" mode="indeterminate"></mat-spinner>
 </div>
-<div *ngIf="!isLoading&&isEmpty" class="mx-auto my-auto alert alert-warning fade show" role="alert">
+<div *ngIf="!isLoading&& isEmpty" class="mx-auto my-auto alert alert-warning fade show" role="alert">
   <p class="text-center my-auto">Currently you don't have any stock in your watchlist.</p>
 </div>
 <ng-template class="d-flex flex-column" #cardContainer></ng-template>

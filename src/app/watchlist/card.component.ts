@@ -1,9 +1,13 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output} from '@angular/core';
+import {EventEmitter} from 'events';
+import {WatchlistService} from './watchlist.service';
 
 @Component({ selector: 'app-card', templateUrl: 'card.component.html' })
 export class CardComponent{
   @Input() item: any;
   destroy = false;
+  constructor(private missionService: WatchlistService) {
+  }
 
   changeTextColor(trend: string): string{
     if ( trend === '+' ){
@@ -43,5 +47,6 @@ export class CardComponent{
     }
     localStorage.removeItem('watchlist');
     localStorage.setItem('watchlist', JSON.stringify(newarray));
+    this.missionService.announceMission('clicked');
   }
 }

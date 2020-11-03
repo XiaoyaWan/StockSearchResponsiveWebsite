@@ -49,7 +49,6 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   buyButtonDisable = true;
   query: string;
   price: any = [];
-  ohlc: any = [];
   volume: any = [];
   table: string[] = [];
   tableTitle: string[] = ['Mid Price:', 'Ask Price:', 'Ask Size:', 'Bid Price:', 'Bid Size:'];
@@ -109,6 +108,9 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.detailsService.getNews(this.query).subscribe(
       (data) => {
         this.newsList = data;
+        // this.newsList = this.CheckImgs(Array.from(Object.keys(data), k => data[k]));
+        // this.newsList = this.CheckImgExists(data);
+        console.log(this.newsList);
       },
       (error) => {
         this.errorSticker = true;
@@ -120,6 +122,26 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
       (data) => {
         this.detailsRefreshList = data;
         this.updatePage();
+        if ( this.detailsRefreshList.market === 'Market is Open' ) {
+          this.intervalTimer = setInterval(() => {
+            this.detailsService.autoRefresh(this.query).subscribe(
+                (res) => {
+                  this.detailsRefreshList = res;
+                  this.updatePage();
+                },
+                (error) => {
+                  this.errorSticker = true;
+                  throwError( error );
+                }
+              );
+            }, 15000);
+        } else {
+          this.detailsRefreshList.mid = null;
+          this.detailsRefreshList.askPrice = null;
+          this.detailsRefreshList.askSize = null;
+          this.detailsRefreshList.bidPrice = null;
+          this.detailsRefreshList.bidSize = null;
+        }
       },
       (error) => {
         this.errorSticker = true;
@@ -149,18 +171,7 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     this.errorSticker = false;
     // refresh every 15s
-    this.intervalTimer = setInterval(() => {
-      this.detailsService.autoRefresh(this.query).subscribe(
-        (data) => {
-          this.detailsRefreshList = data;
-          this.updatePage();
-        },
-        (error) => {
-          this.errorSticker = true;
-          throwError( error );
-        }
-      );
-    }, 15000);
+
   }
   // star button click
   btnCollectClick(): void {
@@ -238,15 +249,24 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
       return false;
     }
   }
-
-  CheckImgExists(imgurl: string): boolean {
+  CheckImgExists(url: string): boolean {
      const ImgObj = new Image();
-     ImgObj.src = imgurl;
+     ImgObj.src = url;
      if (ImgObj.width > 0 && ImgObj.height > 0) {
-          return true;
-     } else {
-          return false;
-      }
+         return true;
+     }
+     return false;
+  }
+  CheckImgs(array: any): any {
+     console.log(array);
+     const result = [];
+     for ( const item of array) {
+       if (this.CheckImgExists(item.urlToImage)) {
+          console.log('success');
+          result.push(item);
+       }
+     }
+     return result;
   }
 
   updatePage(): void{
