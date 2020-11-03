@@ -203,11 +203,8 @@ router.get('/news', function (req, res) {
             if(temp[i].urlToImage == null || temp[i].title == null || temp[i].title == null || temp[i].url == null
                 || temp[i].description == null || temp[i].source.name == null || temp[i].publishedAt == null){
             }else{
-                // const ImgObj = new Image();
-                // ImgObj.src = temp[i].urlToImage;
-                // if (ImgObj.width > 0 && ImgObj.height > 0) {
-                    result.push(temp[i]);
-                // }
+                result.push(temp[i]);
+
             }
         }
         res.send(JSON.stringify(result));

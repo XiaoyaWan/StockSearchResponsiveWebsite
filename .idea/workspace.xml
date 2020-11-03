@@ -3,21 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="51e62374-9985-4705-8809-f84d4e6bda0b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/angular/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/angular/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/angular/main.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/angular/main.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/angular/portfolio-portfolio-module.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/angular/portfolio-portfolio-module.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/angular/portfolio-portfolio-module.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/angular/portfolio-portfolio-module.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/details/details.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/details/details.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/details/details.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/details/details.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/details/details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/details/details.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/portfolio/card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/portfolio/card.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/portfolio/portfolio.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/portfolio/portfolio.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/portfolio/portfolio.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/portfolio/portfolio.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/watchlist/card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/watchlist/card.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/watchlist/watchlist.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/watchlist/watchlist.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/watchlist/watchlist.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/watchlist/watchlist.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/watchlist/watchlist.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/watchlist/watchlist.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +123,7 @@
       <workItem from="1604203763769" duration="1235000" />
       <workItem from="1604276988171" duration="15660000" />
       <workItem from="1604356660721" duration="14972000" />
-      <workItem from="1604435106316" duration="4619000" />
+      <workItem from="1604435106316" duration="8774000" />
     </task>
     <servers />
   </component>

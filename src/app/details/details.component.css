@@ -11,12 +11,24 @@ chart{ display: block }
   display: block;
 }
 .imgContainer {
-  width:100%;
-  position: relative;
-  overflow: hidden;
+  border-radius: 5px;
 }
-.imgContainer img {
-  object-fit: cover;
-  object-position: center;
-  max-height: border-box;
+
+@media (min-width: 1200px){
+  .imgContainer img{
+    max-height: 13vmin;
+    object-fit: cover;
+  }
+}
+@media (min-width: 993px) and (max-width: 1199px) {
+  .imgContainer img{
+    max-height: 7vmin;
+    object-fit: cover;
+  }
+}
+@media (max-width: 992px){
+  .imgContainer img{
+    max-height: 40vmin;
+    object-fit: cover;
+  }
 }
