@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="51e62374-9985-4705-8809-f84d4e6bda0b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/angular/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/angular/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/angular/main.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/angular/main.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/details/details.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/details/details.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/details/details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/details/details.component.ts" afterDir="false" />
-    </list>
+    <list default="true" id="51e62374-9985-4705-8809-f84d4e6bda0b" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -125,7 +119,7 @@
       <workItem from="1604356660721" duration="14972000" />
       <workItem from="1604435106316" duration="9084000" />
       <workItem from="1604520455010" duration="1959000" />
-      <workItem from="1604533205897" duration="1080000" />
+      <workItem from="1604533205897" duration="1765000" />
     </task>
     <servers />
   </component>
