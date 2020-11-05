@@ -42,6 +42,7 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   chartColor: string;
   priceColor: string;
   caretColor: boolean;
+  caretRemove: boolean;
   btnCollect: boolean;
   buyModalTotalPrice = 0;
   buyModalTotalQuantity = 0;
@@ -249,25 +250,6 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
       return false;
     }
   }
-  CheckImgExists(url: string): boolean {
-     const ImgObj = new Image();
-     ImgObj.src = url;
-     if (ImgObj.width > 0 && ImgObj.height > 0) {
-         return true;
-     }
-     return false;
-  }
-  CheckImgs(array: any): any {
-     console.log(array);
-     const result = [];
-     for ( const item of array) {
-       if (this.CheckImgExists(item.urlToImage)) {
-          console.log('success');
-          result.push(item);
-       }
-     }
-     return result;
-  }
 
   updatePage(): void{
     if (this.detailsRefreshList.mid == null){
@@ -277,12 +259,17 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.table = this.tableTitle;
       this.market = 'alert alert-success m-0 p-0 border-0';
     }
-    if ( this.detailsRefreshList.change.toString().slice(0, 1) === '-' ){
+    if ( parseFloat(this.detailsRefreshList.change) < 0 ){
       this.priceColor = 'text-danger';
       this.caretColor = false;
-    }else{
+      this.caretRemove = false;
+    }else if ( parseFloat(this.detailsRefreshList.change) > 0 ){
       this.priceColor = 'text-success';
       this.caretColor = true;
+      this.caretRemove = false;
+    }else{
+      this.priceColor = 'text-dark';
+      this.caretRemove = true;
     }
     // chart data
     this.detailsChartList = this.detailsRefreshList.detailschart;
@@ -301,10 +288,12 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
       ]);
     }
     let newChartColor = '';
-    if ( this.detailsRefreshList.change.toString().slice(0, 1) === '-' ){
+    if ( parseFloat(this.detailsRefreshList.change) < 0 ){
       newChartColor = 'red';
-    }else{
+    }else if ( parseFloat(this.detailsRefreshList.change) > 0 ){
       newChartColor = 'green';
+    }else {
+      newChartColor = 'black';
     }
     if ( newprice === this.price && this.chartColor === newChartColor ){
     }else{

@@ -125,8 +125,8 @@ router.get('/detailsrefresh', function (req, res, next) {
       }else {
         try{
             var result = JSON.parse(body.slice(1, body.length - 1));
-            result['change'] = Math.round((parseFloat(result['last']) - parseFloat(result['prevClose']))*100)/100;
-            result['changePerc'] = Math.round(((parseFloat(result['last']) - parseFloat(result['prevClose'])) / parseFloat(result['prevClose']) * 100)*100)/100;
+            result['change'] = parseFloat(result['last']) - parseFloat(result['prevClose']);
+            result['changePerc'] = (parseFloat(result['last']) - parseFloat(result['prevClose'])) / parseFloat(result['prevClose']) * 100;
             var date1 = new Date();
             var date2 = new Date(result['timestamp']);
 
@@ -250,7 +250,7 @@ router.get('/simpledata', function (req, res, next) {
                 finalResult['ticker'] = result[j]['ticker'];
                 finalResult['last'] = result[j]['last'];
                 finalResult['change'] = (parseFloat(result[j]['last']) - parseFloat(result[j]['prevClose'])).toFixed(2);
-                const i = (parseFloat(result[j]['last']) - parseFloat(result[j]['prevClose'])).toFixed(2);
+                const i = parseFloat(result[j]['last']) - parseFloat(result[j]['prevClose']);
                 if (i > 0) {
                     finalResult['trend'] = '+';
                 } else if (i < 0) {
@@ -269,8 +269,6 @@ router.get('/simpledata', function (req, res, next) {
       }
     }
   );
-
-
 });
 
 module.exports = router;

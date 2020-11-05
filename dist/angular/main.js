@@ -593,13 +593,13 @@ function DetailsComponent_div_3_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassMap"](ctx_r2.priceColor);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.caretColor);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.caretColor && !ctx_r2.caretRemove);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx_r2.caretColor);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx_r2.caretColor && !ctx_r2.caretRemove);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r2.detailsRefreshList.change, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r2.detailsRefreshList.change.toFixed(2), "");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("(", ctx_r2.detailsRefreshList.changePerc, "%) ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("(", ctx_r2.detailsRefreshList.changePerc.toFixed(2), "%) ");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx_r2.detailsList.exchangeCode);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
@@ -882,25 +882,6 @@ class DetailsComponent {
             return false;
         }
     }
-    CheckImgExists(url) {
-        const ImgObj = new Image();
-        ImgObj.src = url;
-        if (ImgObj.width > 0 && ImgObj.height > 0) {
-            return true;
-        }
-        return false;
-    }
-    CheckImgs(array) {
-        console.log(array);
-        const result = [];
-        for (const item of array) {
-            if (this.CheckImgExists(item.urlToImage)) {
-                console.log('success');
-                result.push(item);
-            }
-        }
-        return result;
-    }
     updatePage() {
         if (this.detailsRefreshList.mid == null) {
             this.table = this.tableEmptyTitle;
@@ -910,13 +891,19 @@ class DetailsComponent {
             this.table = this.tableTitle;
             this.market = 'alert alert-success m-0 p-0 border-0';
         }
-        if (this.detailsRefreshList.change.toString().slice(0, 1) === '-') {
+        if (parseFloat(this.detailsRefreshList.change) < 0) {
             this.priceColor = 'text-danger';
             this.caretColor = false;
+            this.caretRemove = false;
         }
-        else {
+        else if (parseFloat(this.detailsRefreshList.change) > 0) {
             this.priceColor = 'text-success';
             this.caretColor = true;
+            this.caretRemove = false;
+        }
+        else {
+            this.priceColor = 'text-dark';
+            this.caretRemove = true;
         }
         // chart data
         this.detailsChartList = this.detailsRefreshList.detailschart;
@@ -933,11 +920,14 @@ class DetailsComponent {
             ]);
         }
         let newChartColor = '';
-        if (this.detailsRefreshList.change.toString().slice(0, 1) === '-') {
+        if (parseFloat(this.detailsRefreshList.change) < 0) {
             newChartColor = 'red';
         }
-        else {
+        else if (parseFloat(this.detailsRefreshList.change) > 0) {
             newChartColor = 'green';
+        }
+        else {
+            newChartColor = 'black';
         }
         if (newprice === this.price && this.chartColor === newChartColor) {
         }
